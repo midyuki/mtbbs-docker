@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=MTBBS
+Comment=
+Exec=/opt/wine-stable/bin/wine /BBS/MyoHost.exe
+Icon=/BBS/EpgDataCap_Bon.ico
+Path=/BBS
+Terminal=false
+StartupNotify=false

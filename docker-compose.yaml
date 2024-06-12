@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  mtbbs-wine:
+    image: mtbbs-wine
+    build:
+      dockerfile: Dockerfile
+    container_name: mtbbs-wine
+    restart: always
+    privileged: true
+    volumes:
+      - ./BBS:/BBS
+    ports:
+      - "6510:6510" # Exposing noVnc
+      - "80:80" # Exposing WebInterface
+      - "21:21" # Exposing FTP
+      #- "23:23" #optional Exposing Telnet
+    tty: true
+    networks:
+      - mtbbs_network
+
+  sshwifty:
+    image: niruix/sshwifty:latest
+    container_name: mtbbs-sshwifty
+    restart: always
+    depends_on:
+      - mtbbs-wine
+    ports:
+      - 8182:8182
+    volumes:
+      - ./sshwifty.conf.json:/app/sshwifty.conf.json
+    environment:
+      - SSHWIFTY_CONFIG=/app/sshwifty.conf.json
+    networks:
+      - mtbbs_network
+        
+networks:
+  mtbbs_network:
+    driver: bridge
